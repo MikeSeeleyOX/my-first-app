@@ -1,0 +1,17 @@
+name: intentionally-insecure-test
+on:
+  pull_request_target:
+    branches: [ main ]
+
+permissions: write-all
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Run untrusted input
+        run: echo "Building ${{ github.event.pull_request.title }}"
+      - uses: some-org/some-action@master
