@@ -1,0 +1,27 @@
+name: build
+on:
+  pull_request_target:
+    branches: [main]
+
+permissions: write-all
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Greet
+        run: echo "PR from ${{ github.event.pull_request.head.ref }}"
+
+      - uses: actions/setup-node@main
+
+      - name: Install
+        run: curl -sL https://example.com/install.sh | bash
+
+      - name: Deploy
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "deploying"
